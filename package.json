@@ -1,5 +1,12 @@
 {
-    "requires": true,
+    "name": "sysadmin",
+    "description": "system app",
+    "version": "1.0.0",
+    "engines": {
+      "node": "16.13.1"
+    },
+  
+  "requires": true,
     "lockfileVersion": 1,
     "dependencies": {
       "accepts": {
