@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags for Bootstrap -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- Custom stylesheet -->
+        <link rel="stylesheet" type="text/css" href="../resources/css/common.css">
+
+        <!-- Google material icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <title>Edit Biography</title>
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <!-- Header and navbar -->
+            <div class="row">
+                <h1 class="col h1-admin">Admin</h1>
+            </div>
+            <div class="row row-cols-8 justify-content-center">
+                <div class="col proto-navbar-admin protobar-admin-selected"><div class="d-none d-md-block">Edit Profile</div><i class="material-icons d-md-none d-lg-none">home</i></div>
+                <a href="news-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit News</div><i class="material-icons d-md-none d-lg-none">new_releases</i></a>
+                <a href="pub-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Publications</div><i class="material-icons d-md-none d-lg-none">new_releases</i></a>
+                <a href="press-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Press</div><i class="material-icons d-md-none d-lg-none">article</i></a>
+                <a href="research-program-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Information</div><i class="material-icons d-md-none d-lg-none">biotech</i></a>
+                <a href="teaching-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Teachings</div><i class="material-icons d-md-none d-lg-none">school</i></a>
+                <a href="group-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Group</div><i class="material-icons d-md-none d-lg-none">groups</i></a>
+                <a href="contact-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Contact Information</div><i class="material-icons d-md-none d-lg-none">contact_phone</i></a>
+            </div>
+
+            <!-- Divisor -->
+            <div class="divisor"></div>
+            
+            <!-- Content -->
+            <h2>Edit Profile:</h2>
+            
+            <div class="row row-cols-1 align-items-center">
+                <div class="col-md-6 offset-md-3">
+                    <form name="bio-form" action="http://localhost:8080/bio" method="post" id="bio-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="fullname">Edit Full Name:</label>
+                            <input type="text" class="form-control" id="fullname" name="fullname"></input>
+                            <p style="display: none; color:red"></p>
+                        </div>
+
+                        <div class="form-group">
+                             <img src="../resources/img/avatar.jpg" class="avatar"></img>
+                            <label for="pictureUpload">Upload new picture:</label>
+                            <input type="file" class="form-control-file" id="pictureUpload" name="pictureUpload">
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="biography">Edit Biography:</label>
+                            <textarea class="form-control" id="biography" rows="3" name="biography"></textarea>
+                            <p style="display: none; color:red"></p>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary mb-2" id="submitChanges">Confirm changes</button>
+                    </form>
+                    
+                </div>
+            </div>
+
+            <hr>
+
+        </div>
+        
+
+        
+        <!-- JS includes for Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+        <script src="../resources/js/common.js"></script>
+        <script>
+            $(document).ready(function(){
+
+                $.getJSON("/bio", function(result){
+                    $("#fullname").val(result.name);
+                    $("#biography").val(result.biography);
+                });
+                
+                $("#biography").blur(function(){
+                    genericValidate(this);
+                });
+
+                $("#fullname").blur(function(){
+                    genericValidate(this);
+                });
+
+                $("#submitChanges").click(function(){
+                    if(genericValidate("#biography") && genericValidate("#fullname")){
+                        return true;
+                    };
+
+                    return false;
+                });
+            });
+        </script>
+    </body>
+
+</html>

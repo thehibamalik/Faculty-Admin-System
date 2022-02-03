@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags for Bootstrap -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- Custom stylesheet -->
+        <link rel="stylesheet" type="text/css" href="../resources/css/common.css">
+
+        <!-- Google material icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <title>Edit Contact Information</title>
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <!-- Header and navbar -->
+            <div class="row">
+                <h1 class="col h1-admin">Admin</h1>
+            </div>
+            <div class="row row-cols-8 justify-content-center">
+                <a href="index.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Profile</div><i class="material-icons d-md-none d-lg-none">home</i></a>
+                <a href="news-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit News</div><i class="material-icons d-md-none d-lg-none">new_releases</i></a>
+                <a href="pub-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Publications</div><i class="material-icons d-md-none d-lg-none">new_releases</i></a>
+                <a href="press-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Press</div><i class="material-icons d-md-none d-lg-none">article</i></a>
+                <a href="research-program-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Information</div><i class="material-icons d-md-none d-lg-none">biotech</i></a>
+                <a href="teaching-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Teachings</div><i class="material-icons d-md-none d-lg-none">school</i></a>
+                <a href="group-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Group</div><i class="material-icons d-md-none d-lg-none">groups</i></a>
+                <div class="col proto-navbar-admin protobar-admin-selected"><div class="d-none d-md-block">Edit Contact Information</div><i class="material-icons d-md-none d-lg-none">contact_phone</i></div>
+            </div>
+
+            <!-- Divisor -->
+            <div class="divisor"></div>
+            
+            <!-- Content -->
+            <h2>Edit Contact Information:</h2>
+            
+            <div class="row row-cols-1 align-items-center">
+                <div class="col-md-6 offset-md-3">
+                    <form name="contact-form" action="http://localhost:8080/contact" method="post" id="contact-form">
+                        <div class="form-group">
+                            <label for="biography">Edit Email:</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="biography">Edit Phone Number:</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number">
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="biography">Edit Directions:</label>
+                            <textarea class="form-control" id="directions" name="directions" rows="3"></textarea>
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="biography">Edit Location:</label>
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Latitude">
+                            <p style="display: none; color:red"></p>
+                            <input type="text" class="form-control" id="long" name="long" placeholder="Longitude">
+                            <p style="display: none; color:red"></p>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary mb-2" id="submitChanges">Confirm changes</button>
+                    </form>
+                    
+                </div>
+            </div>
+
+            <hr>
+
+        </div>
+        
+
+        
+        <!-- JS includes for Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+        <script src="../resources/js/common.js"></script>
+        <script>
+            $(document).ready(function(){
+
+                $.getJSON("/contact", function(result){
+                    $("#phone").val(result.phone);
+                    $("#directions").val(result.directions);
+                    $("#email").val(result.email);
+                    $("#lat").val(result.lat);
+                    $("#long").val(result.long);
+                });
+                
+                $("#phone").blur(function(){
+                    genericValidate(this);
+                });
+                $("#directions").blur(function(){
+                    genericValidate(this);
+                });
+                $("#email").blur(function(){
+                    genericValidate(this,/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+                });
+                $("#lat").blur(function(){
+                    genericValidate(this, /^[\-]?[0-9]+\.?[0-9]+$/);
+                });
+                $("#long").blur(function(){
+                    genericValidate(this, /^[\-]?[0-9]+\.?[0-9]+$/);
+                });
+
+                $("#submitChanges").click(function(){
+                    genericValidate("#phone");
+                    genericValidate("#directions");
+                    genericValidate("#email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+                    genericValidate("#lat", /^[\-]?[0-9]+\.?[0-9]+$/);
+                    genericValidate("#long", /^[\-]?[0-9]+\.?[0-9]+$/);
+
+                    if(genericValidate("#phone")
+                    && genericValidate("#directions")
+                    && genericValidate("#email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+                    && genericValidate("#lat", /^[\-]?[0-9]+\.?[0-9]+$/)
+                    && genericValidate("#long", /^[\-]?[0-9]+\.?[0-9]+$/)){
+                        return true;
+                    };
+
+                    return false;
+                });
+            });
+        </script>
+    </body>
+
+</html>

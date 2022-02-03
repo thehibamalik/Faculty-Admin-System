@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags for Bootstrap -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- Custom stylesheet -->
+        <link rel="stylesheet" type="text/css" href="../resources/css/common.css">
+
+        <!-- Google material icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <title>Edit Publications</title>
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <!-- Header and navbar -->
+            <div class="row">
+                <h1 class="col h1-admin">Admin</h1>
+            </div>
+            <div class="row row-cols-8 justify-content-center">
+                <a href="index.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Profile</div><i class="material-icons d-md-none d-lg-none">home</i></a>
+                <a href="news-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit News</div><i class="material-icons d-md-none d-lg-none">new_releases</i></a>
+                <div class="col proto-navbar-admin protobar-admin-selected"><div class="d-none d-md-block">Edit Publications</div><i class="material-icons d-md-none d-lg-none">new_releases</i></div>
+                <a href="press-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Press</div><i class="material-icons d-md-none d-lg-none">article</i></a>
+                <a href="research-program-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Information</div><i class="material-icons d-md-none d-lg-none">biotech</i></a>
+                <a href="teaching-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Teachings</div><i class="material-icons d-md-none d-lg-none">school</i></a>
+                <a href="group-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Research Group</div><i class="material-icons d-md-none d-lg-none">groups</i></a>
+                <a href="contact-admin.html" class="col proto-navbar-admin"><div class="d-none d-md-block">Edit Contact Information</div><i class="material-icons d-md-none d-lg-none">contact_phone</i></a>
+            </div>
+
+            <!-- Divisor -->
+            <div class="divisor"></div>
+            
+            <!-- Content -->
+            <h2>Edit Publications:</h2>
+
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#registrationModal">
+                <i class="material-icons inline-icons">add_circle_outline</i>  Add new publication
+            </button>
+
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-striped table-hover" id="data">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Publication Name</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+
+                      </table>
+                </div>
+            </div>
+
+            <div class="divisor"></div>
+        </div>
+
+
+        <!-- Registration modal -->
+        <div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registrationModalLabel">New Publication</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form name="new-pub-form" action="http://localhost:8080/pub" method="post" id="new-pub-form">
+                            <div class="form-group">
+                                <label for="name">Publication Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Publication">
+                                <p style="display: none; color:red"></p>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="pub-url">Publication URL:</label>
+                                <input type="text" class="form-control" id="pub-url" name="pub-url" placeholder="http://link-to-publication">
+                                <p style="display: none; color:red"></p>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="pub-type">Type:</label>
+                                <select class="custom-select my-1 mr-sm-2" id="pub-type" name="pub-type">
+                                    <option selected value="">Type...</option>
+                                    <option value="Journals">Journals</option>
+                                    <option value="Conference Papers">Conference Papers</option>
+                                    <option value="Workshop Papers">Workshop Papers</option>
+                                    <option value="Posters">Posters</option>
+                                    <option value="Technical Reports">Technical Reports</option>
+                                </select>
+                                <p style="display: none; color:red"></p>
+                            </div>    
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" id="submitRegistration">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edition modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Publication Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" name="element-ID" id="element-ID">
+                        <div class="form-group">
+                            <label for="name">Publication Name:</label>
+                            <input type="text" class="form-control" id="name-edit" placeholder="Publication">
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="pub-url-edit">Publication URL:</label>
+                            <input type="text" class="form-control" id="pub-url-edit" placeholder="http://link-to-publication">
+                            <p style="display: none; color:red"></p>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="pub-type-edit">Type:</label>
+                            <select class="custom-select my-1 mr-sm-2" id="pub-type-edit">
+                                <option selected value="">Type...</option>
+                                <option value="Journals">Journals</option>
+                                <option value="Conference Papers">Conference Papers</option>
+                                <option value="Workshop Papers">Workshop Papers</option>
+                                <option value="Posters">Posters</option>
+                                <option value="Technical Reports">Technical Reports</option>
+                            </select>
+                            <p style="display: none; color:red"></p>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="submitEdition">Confirm Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location for deletion modals -->
+        <div id="confirmationModals"></div>
+        
+        <!-- JS includes for Bootstrap -->
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+        <script src="../resources/js/common.js"></script>
+        <script>
+            //Function to delete data by ID
+            function deleteByID(id){
+                var request = $.ajax("http://localhost:8080/pub/"+id, {method:"delete"});
+                
+                request.done(function(){
+                    location.reload();
+                });
+            }
+
+            //Function to update the edition form
+            function setEditionForm(id,title,url,type){
+                $("#element-ID").val(id);
+                $("#name-edit").val(title);
+                $("#pub-url-edit").val(url);
+                $("#pub-type-edit").val(type);
+            }
+
+            //Function that acts as a submit for the edition
+            function updateByID(id){
+                var request = $.ajax("http://localhost:8080/pub/"+id, {
+                    method:"put",
+                    data: {
+                        "title":  $("#name-edit").val(),
+                        "URL":  $("#pub-url-edit").val(),
+                        "type": $("#pub-type-edit").val()
+                    }
+                });
+                
+                request.done(function(){
+                    location.reload();
+                });
+            }
+
+            $(document).ready(function(){
+                
+                $("#name").blur(function(){
+                    genericValidate(this);
+                });
+                $("#pub-url").blur(function(){
+                    genericValidate(this, /^http+s?\:\/\/+[\s\S]+$/);
+                });
+                $("#pub-type").blur(function(){
+                    genericValidate(this);
+                });
+
+                $("#name-edit").blur(function(){
+                    genericValidate(this);
+                });
+                $("#pub-url-edit").blur(function(){
+                    genericValidate(this, /^http+s?\:\/\/+[\s\S]+$/);
+                });
+                $("#pub-type-edit").blur(function(){
+                    genericValidate(this);
+                });
+
+                //Edition form submit
+                $("#submitEdition").click(function(){
+                    genericValidate("#name-edit");
+                    genericValidate("#pub-url-edit", /^http+s?\:\/\/+[\s\S]+$/);
+                    genericValidate("#pub-type-edit");
+
+                    if(genericValidate("#name-edit")
+                    && genericValidate("#pub-url-edit", /^http+s?\:\/\/+[\s\S]+$/)
+                    && genericValidate("#pub-type-edit")){
+
+                        updateByID($("#element-ID").val());
+
+                    };
+                });
+
+                //Creation form submit
+                $("#submitRegistration").click(function(){
+                    genericValidate("#name");
+                    genericValidate("#pub-url", /^http+s?\:\/\/+[\s\S]+$/);
+                    genericValidate("#pub-type");
+
+                    if(genericValidate("#name")
+                    && genericValidate("#pub-url", /^http+s?\:\/\/+[\s\S]+$/)
+                    && genericValidate("#pub-type")){
+                        return true;
+                    };
+
+                    return false;
+                });
+
+                //get news from database
+                $.getJSON("/pub", function(result){
+                    console.log(result);
+                    
+                    //Clean the table and append objects
+                    $("#data > tbody").children().remove();
+
+                    result.forEach(function(element,i){
+                        $("#data > tbody:last-child").append(`
+                        <tr>
+                            <th scope="row">${i+1}</th>
+                            <td><a href="${element.URL}">${element.title}</a></td>
+                            <td>${element.type}</td>
+                            <td>
+                                <a href="#" onclick="setEditionForm('${element._id}','${element.title}','${element.URL}','${element.type}')"><i class="material-icons inline-icons" data-toggle="modal" data-target="#editModal">edit</i></a>
+                                <a href="#"><i class="material-icons inline-icons" data-toggle="modal" data-target="#confirmationModal${i+1}">delete_forever</i></a>
+                            </td>
+                        </tr>
+                        `);
+
+                        //Append a deletion modal for this element
+                        $("#confirmationModals").append(`
+                        <div class="modal fade" id="confirmationModal${i+1}" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel">Are you sure?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        Are you sure you want to delete the selected publication?
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        <a href="#" onclick="deleteByID('${element._id}')"><button type="button" class="btn btn-danger">Yes, delete it</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `);
+                    });
+                });
+            });
+
+        </script>
+    </body>
+
+</html>
